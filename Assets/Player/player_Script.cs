@@ -147,7 +147,7 @@ public class player_Script : MonoBehaviour
 
     private void WallSlide()
     {
-        if (isOnWall() && !isGrounded)
+        if (isOnWall())
         {
         isWallSliding = true;
 
