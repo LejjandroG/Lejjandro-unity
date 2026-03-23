@@ -8,7 +8,7 @@ using System.Collections;
 public class player_Script : MonoBehaviour
 {
     public Rigidbody2D rb;
-
+    private Animator anim;
     [Header("Rörelse/Movement")]
     public float movementSpeed = 5f;
     private bool isfacingRight = true;
@@ -50,6 +50,7 @@ public class player_Script : MonoBehaviour
     {
         extraJump = extraJumpsValue;
         rb = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -96,7 +97,8 @@ public class player_Script : MonoBehaviour
     {
          if (isDashing)
         {
-                return;
+            anim.SetBool("isDashing", true);
+            return;
         }
             
         rb.linearVelocity = new Vector3(horizontal * movementSpeed, rb.linearVelocityY);
