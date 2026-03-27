@@ -65,28 +65,13 @@ public class player_Script : MonoBehaviour
             extraJump = extraJumpsValue;
         }
         
-        //Jump
-        //Hoppa
-        if (Input.GetButtonDown("Jump"))
-        {
-            if (isGrounded)
-            {
-                rb.linearVelocity = new Vector3(rb.linearVelocityX, jumpPower);
-            }
-        //Double Jump
-        //Dubbelhopp
-            else if (extraJump > 0)
-            {
-                rb.linearVelocity = new Vector3(rb.linearVelocityX, jumpPower);
-                extraJump --;
-            }
-
-        }
+        
         //Healthbar
         //Hälsobar
         healthBar.fillAmount = health / 100f;
 
         HandleMovement();
+        HandleJump();
         flip();
         WallJump();
         Dash();
@@ -95,42 +80,66 @@ public class player_Script : MonoBehaviour
     // Use FixedUpdate for physics
     private void FixedUpdate()
     {
-         if (isDashing)
-        {
-            anim.SetBool("isDashing", true);
-            return;
-        }
-            
-        rb.linearVelocity = new Vector3(horizontal * movementSpeed, rb.linearVelocityY);
-
         isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+
+        anim.SetFloat("xVelocity", Mathf.Abs(rb.linearVelocityX));
+        anim.SetFloat("yVelocity",rb.linearVelocityY);
          
         WallSlide();
         IsOnGround();
+
+    }
+
+    private bool IsOnGround()
+    {
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        //Debug.Log("IsGrounded: " + isGrounded);
+        return Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+    }
+    private bool isOnWall()
+    {
+        return Physics2D.OverlapCircle(wallCheck.position, wallCheckRadius, wallLayer);
     }
 
     //Rörelse
     //Movement
     private void HandleMovement()
     {
+        rb.linearVelocity = new Vector3(horizontal * movementSpeed, rb.linearVelocityY);
+        
         horizontal = Input.GetAxisRaw("Horizontal");
+        
         if (horizontal != 0)
         {
-            anim.SetBool("isRunning", true);
+            
         }
         else
         {
-            anim.SetBool("isRunning", false);
+            
         }
     }
-    private bool IsOnGround()
+
+    private void HandleJump()
     {
-        Debug.Log("IsGrounded: " + isGrounded);
-        return Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
-    }
-    private bool isOnWall()
-    {
-        return Physics2D.OverlapCircle(wallCheck.position, wallCheckRadius, wallLayer);
+        //Jump
+        //Hoppa
+        if (Input.GetButtonDown("Jump"))
+        {
+            if (isGrounded)
+            {
+                rb.linearVelocity = new Vector3(rb.linearVelocityX, jumpPower);
+
+                anim.SetBool("isJumping", !isGrounded);
+            }
+            //Double Jump
+            //Dubbelhopp
+            else if (extraJump > 0)
+            {
+                rb.linearVelocity = new Vector3(rb.linearVelocityX, jumpPower);
+                extraJump --;
+            }
+
+        }
     }
 
     private void Dash()
@@ -179,7 +188,7 @@ public class player_Script : MonoBehaviour
             isWallSliding = false;
         }
 
-            Debug.Log("IsWallSliding: " + isWallSliding);
+            //Debug.Log("IsWallSliding: " + isWallSliding);
     }
 
     private void WallJump()

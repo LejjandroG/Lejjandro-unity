@@ -22,6 +22,8 @@ public class enemy_1_script : MonoBehaviour
     public bool canSeePlayer { get; private set; }
     private bool isWaiting = false;
 
+    private float dotThreshold;
+
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -32,6 +34,7 @@ public class enemy_1_script : MonoBehaviour
         anim.SetBool("isRunning", true);
         playerRef = GameObject.FindGameObjectWithTag("Player");
         StartCoroutine(FOVCheck());
+        dotThreshold = Mathf.Cos((angle * 0.5f) * Mathf.Deg2Rad);
     }
 
 
@@ -64,31 +67,36 @@ public class enemy_1_script : MonoBehaviour
     {
         Collider2D[] rangeCheck = Physics2D.OverlapCircleAll(transform.position, radius, targetLayer);
 
-
         if (rangeCheck.Length > 0)
         {
             Transform target = rangeCheck[0].transform;
-            Vector2 directionToTarget = (target.position - transform.position).normalized;
 
+            Vector2 directionToTarget = (target.position - transform.position);
+            float distanceToTarget = directionToTarget.magnitude;
 
-            if (Vector2.Angle(transform.right, directionToTarget) < angle / 2)
+            if (distanceToTarget < 0.5f)
             {
-                float distanceToTarget = Vector2.Distance(transform.position, target.position);
-                if (!Physics2D.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionLayer))
-                {
-                    canSeePlayer = true;
-                }
-                else
-                {
-                    canSeePlayer = false;
-                }
+                canSeePlayer = true;
+                return;
+            }
+
+            directionToTarget.Normalize();
+
+            Vector2 facingDirection = transform.localScale.x > 0 ? Vector2.right : Vector2.left;
+
+            float dot = Vector2.Dot(facingDirection, directionToTarget);
+
+            if (dot > dotThreshold)
+            {
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionLayer);
+                canSeePlayer = !hit;
             }
             else
             {
-                canSeePlayer = false;  
+                canSeePlayer = false;
             }
         }
-        else if (canSeePlayer)
+        else
         {
             canSeePlayer = false;
         }
@@ -97,7 +105,7 @@ public class enemy_1_script : MonoBehaviour
 
     private void MoveTowardsPoint()
     {
-                if(currentPoint == pointB.transform)
+        if(currentPoint == pointB.transform)
         {
             rb.linearVelocity = new Vector2(speed, 0 );
         }
@@ -141,7 +149,6 @@ public class enemy_1_script : MonoBehaviour
             currentPoint = pointB.transform;
         }
 
-
         anim.SetBool("isRunning", true);
         isWaiting = false;
     }
@@ -154,6 +161,19 @@ public class enemy_1_script : MonoBehaviour
         transform.localScale = localScale;
     }
 
+        private Vector2 RotateVector(Vector2 vector, float angleDegrees)
+    {
+        float rad = angleDegrees * Mathf.Deg2Rad;
+
+        float sin = Mathf.Sin(rad);
+        float cos = Mathf.Cos(rad);
+
+        return new Vector2(
+            vector.x * cos - vector.y * sin,
+            vector.x * sin + vector.y * cos
+        );
+    }
+
 
     private void OnDrawGizmos()
     {
@@ -161,20 +181,27 @@ public class enemy_1_script : MonoBehaviour
         Gizmos.DrawWireSphere(pointB.transform.position, 0.5f);
 
 
+            // Vision radius
         Gizmos.color = Color.white;
-        UnityEditor.Handles.DrawWireDisc(transform.position, Vector3.forward, radius);
+        Gizmos.DrawWireSphere(transform.position, radius);
 
+        // Facing direction (matches your movement + flip)
+        Vector2 facingDirection = transform.localScale.x > 0 ? Vector2.right : Vector2.left;
 
-        Vector3 angle01 = DirectionFromAngle(-transform.eulerAngles.z, -angle / 2);
-        Vector3 angle02 = DirectionFromAngle(-transform.eulerAngles.z, angle / 2);
-
+        // FOV boundaries
+        Vector2 leftBoundary = RotateVector(facingDirection, -angle / 2);
+        Vector2 rightBoundary = RotateVector(facingDirection, angle / 2);
 
         Gizmos.color = Color.yellow;
-        Gizmos.DrawLine(transform.position, transform.position + angle01 * radius);
-        Gizmos.DrawLine(transform.position, transform.position + angle02 * radius);
+        Gizmos.DrawLine(transform.position, transform.position + (Vector3)(leftBoundary * radius));
+        Gizmos.DrawLine(transform.position, transform.position + (Vector3)(rightBoundary * radius));
 
+        // Optional: draw center direction
+        Gizmos.color = Color.blue;
+        Gizmos.DrawLine(transform.position, transform.position + (Vector3)(facingDirection * radius));
 
-        if (canSeePlayer)
+        // If player is visible
+        if (canSeePlayer && playerRef != null)
         {
             Gizmos.color = Color.green;
             Gizmos.DrawLine(transform.position, playerRef.transform.position);
