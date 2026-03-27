@@ -5,6 +5,7 @@ using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.XR;
 public class player_Script : MonoBehaviour
 {
     public Rigidbody2D rb;
@@ -56,9 +57,6 @@ public class player_Script : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //Rörelse
-        //Movement
-        horizontal = Input.GetAxisRaw("Horizontal");
 
         //Double Jump
         //Dubbelhopp
@@ -88,10 +86,12 @@ public class player_Script : MonoBehaviour
         //Hälsobar
         healthBar.fillAmount = health / 100f;
 
+        HandleMovement();
         flip();
         WallJump();
         Dash();
     }
+    
     // Use FixedUpdate for physics
     private void FixedUpdate()
     {
@@ -107,6 +107,21 @@ public class player_Script : MonoBehaviour
          
         WallSlide();
         IsOnGround();
+    }
+
+    //Rörelse
+    //Movement
+    private void HandleMovement()
+    {
+        horizontal = Input.GetAxisRaw("Horizontal");
+        if (horizontal != 0)
+        {
+            anim.SetBool("isRunning", true);
+        }
+        else
+        {
+            anim.SetBool("isRunning", false);
+        }
     }
     private bool IsOnGround()
     {
