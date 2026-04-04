@@ -15245,7 +15245,7 @@ MonoBehaviour:
   healthBar: {fileID: 2005091102}
   wallslidingSpeed: 3
   wallCheck: {fileID: 1571274880}
-  wallCheckRadius: 0.2
+  wallCheckRadius: 0.3
   wallLayer:
     serializedVersion: 2
     m_Bits: 72
@@ -20679,7 +20679,7 @@ Transform:
   m_GameObject: {fileID: 1571274879}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0.001, y: 0, z: 0}
   m_LocalScale: {x: 15, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -21604,7 +21604,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.153, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1, y: 1.625, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 817038801}

@@ -181,7 +181,7 @@ public class enemy_1_script : MonoBehaviour
         Gizmos.DrawWireSphere(pointB.transform.position, 0.5f);
 
 
-            // Vision radius
+        // Vision radius
         Gizmos.color = Color.white;
         Gizmos.DrawWireSphere(transform.position, radius);
 

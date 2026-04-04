@@ -57,15 +57,6 @@ public class player_Script : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        //Double Jump
-        //Dubbelhopp
-        if (isGrounded)
-        {
-            extraJump = extraJumpsValue;
-        }
-        
-        
         //Healthbar
         //Hälsobar
         healthBar.fillAmount = health / 100f;
@@ -84,6 +75,8 @@ public class player_Script : MonoBehaviour
 
         anim.SetFloat("xVelocity", Mathf.Abs(rb.linearVelocityX));
         anim.SetFloat("yVelocity",rb.linearVelocityY);
+
+        anim.SetBool("isFalling", rb.linearVelocityY < -0.1f && !isGrounded);
          
         WallSlide();
         IsOnGround();
@@ -105,18 +98,11 @@ public class player_Script : MonoBehaviour
     //Movement
     private void HandleMovement()
     {
-        rb.linearVelocity = new Vector3(horizontal * movementSpeed, rb.linearVelocityY);
-        
+        if(!isDashing)
+        {
+            rb.linearVelocity = new Vector3(horizontal * movementSpeed, rb.linearVelocityY);
+        }
         horizontal = Input.GetAxisRaw("Horizontal");
-        
-        if (horizontal != 0)
-        {
-            
-        }
-        else
-        {
-            
-        }
     }
 
     private void HandleJump()
@@ -129,7 +115,7 @@ public class player_Script : MonoBehaviour
             {
                 rb.linearVelocity = new Vector3(rb.linearVelocityX, jumpPower);
 
-                anim.SetBool("isJumping", !isGrounded);
+                anim.SetBool("isJumping", true);
             }
             //Double Jump
             //Dubbelhopp
@@ -139,6 +125,18 @@ public class player_Script : MonoBehaviour
                 extraJump --;
             }
 
+        }
+
+        if (isGrounded && rb.linearVelocityY <= 0)
+        {
+            anim.SetBool("isJumping", false);
+        }
+
+        //Double Jump
+        //Dubbelhopp
+        if (isGrounded)
+        {
+            extraJump = extraJumpsValue;
         }
     }
 
@@ -161,11 +159,13 @@ public class player_Script : MonoBehaviour
         float direction = isfacingRight ? 1f : -1f;
 
         rb.linearVelocity = new Vector2(direction * dashSpeed, 0f);
+        anim.SetBool("isDashing", true);
 
         yield return new WaitForSeconds(dashDuration);
 
         rb.gravityScale = originalGravity;
         isDashing = false;
+        anim.SetBool("isDashing", false);
 
         yield return new WaitForSeconds(dashCooldown);
         canDash = true;
@@ -258,4 +258,12 @@ public class player_Script : MonoBehaviour
             UnityEngine.SceneManagement.SceneManager.LoadScene("GameScene");
         }
     }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+        Gizmos.DrawWireSphere(wallCheck.position, wallCheckRadius);
+    }
+    
 }
