@@ -75,12 +75,25 @@ public class player_Script : MonoBehaviour
 
         anim.SetFloat("xVelocity", Mathf.Abs(rb.linearVelocityX));
         anim.SetFloat("yVelocity",rb.linearVelocityY);
-
-        anim.SetBool("isFalling", rb.linearVelocityY < -0.1f && !isGrounded);
          
         WallSlide();
         IsOnGround();
 
+    }
+
+        private void OnCollisionEnter2D(Collision2D collision)
+    {
+        //Spikes collision
+        if (collision.gameObject.tag == "Spikes")
+        {
+            health -= 50;
+            anim.SetTrigger("gotHurt");
+            rb.linearVelocity = new Vector3(rb.linearVelocityX, jumpPower);
+            if (health <= 0)
+            {
+                Die();
+            }
+        }
     }
 
     private bool IsOnGround()
@@ -239,19 +252,6 @@ public class player_Script : MonoBehaviour
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        //Spikes collision
-        if (collision.gameObject.tag == "Spikes")
-        {
-            health -= 50;
-            rb.linearVelocity = new Vector3(rb.linearVelocityX, jumpPower);
-            if (health <= 0)
-            {
-                Die();
-            }
-        }
-    }
     private void Die()
     {
         {
