@@ -21,8 +21,8 @@ public class enemy_1_script : MonoBehaviour
     public GameObject playerRef;
     public bool canSeePlayer { get; private set; }
     private bool isWaiting = false;
-
     private float dotThreshold;
+    public int health = 5;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -174,6 +174,17 @@ public class enemy_1_script : MonoBehaviour
         );
     }
 
+    public void TakeDamage(int damage)
+    {
+        health -= damage;
+        Debug.Log("Enemy took " + damage + " damage!");
+        if (health <= 0)
+        {
+            Die();
+        }
+
+    }
+
 
     private void OnDrawGizmos()
     {
@@ -206,6 +217,11 @@ public class enemy_1_script : MonoBehaviour
             Gizmos.color = Color.green;
             Gizmos.DrawLine(transform.position, playerRef.transform.position);
         }
+    }
+
+    public void Die()
+    {
+        Destroy(gameObject);
     }
 
 

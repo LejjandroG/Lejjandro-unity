@@ -45,6 +45,13 @@ public class player_Script : MonoBehaviour
     private bool isDashing;
     private bool canDash = true;
     public float dashCooldown = 1f;
+    [Header("Attack")]
+    public float timeBtwAttack;
+    public float startTimeBtwAttack;
+    public Transform attackPos;
+    public float attackRange;
+    public LayerMask whatIsEnemies;
+    public int damage;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -61,6 +68,7 @@ public class player_Script : MonoBehaviour
         //Hälsobar
         healthBar.fillAmount = health / 100f;
 
+        HandleAttack();
         HandleMovement();
         HandleJump();
         flip();
@@ -87,13 +95,22 @@ public class player_Script : MonoBehaviour
         if (collision.gameObject.tag == "Spikes")
         {
             health -= 50;
-            anim.SetTrigger("gotHurt");
+            StartCoroutine(HurtAnimation());
+
             rb.linearVelocity = new Vector3(rb.linearVelocityX, jumpPower);
+
             if (health <= 0)
             {
                 Die();
             }
         }
+    }
+
+    private IEnumerator HurtAnimation()
+    {
+        anim.SetBool("gotHurt", true);
+        yield return new WaitForSeconds(0.2f);
+        anim.SetBool("gotHurt", false);
     }
 
     private bool IsOnGround()
@@ -236,6 +253,28 @@ public class player_Script : MonoBehaviour
         }
     }
 
+    private void HandleAttack()
+    {
+        if (timeBtwAttack <= 0)
+        {
+            if (Input.GetMouseButtonDown(0))
+            {
+                Debug.Log("Player Attacked!");
+                anim.SetTrigger("attack");
+                Collider2D[] enemysToDamage = Physics2D.OverlapCircleAll(attackPos.position, attackRange, whatIsEnemies);
+                for (int i = 0; i < enemysToDamage.Length; i++)
+                {
+                    enemysToDamage[i].GetComponent<enemy_1_script>().TakeDamage(damage);
+                }
+            }
+            timeBtwAttack = startTimeBtwAttack;
+        }
+        else
+        {
+            timeBtwAttack -= Time.deltaTime;
+        }
+    }
+
     private void stopWallJumping()
     {
         isWallJumping = false;
@@ -264,6 +303,12 @@ public class player_Script : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
         Gizmos.DrawWireSphere(wallCheck.position, wallCheckRadius);
+    }
+
+        void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(attackPos.position, attackRange);
     }
     
 }
