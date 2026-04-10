@@ -205,7 +205,8 @@ public class player_Script : MonoBehaviour
     {
         if (isOnWall())
         {
-        isWallSliding = true;
+            isWallSliding = true;
+            anim.SetBool("isWallSliding", true);
 
         
             if (rb.linearVelocityY <= 0)
@@ -216,6 +217,7 @@ public class player_Script : MonoBehaviour
         else
         {
             isWallSliding = false;
+            anim.SetBool("isWallSliding", false);
         }
 
             //Debug.Log("IsWallSliding: " + isWallSliding);
@@ -257,7 +259,7 @@ public class player_Script : MonoBehaviour
     {
         if (timeBtwAttack <= 0)
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0) && isGrounded)
             {
                 Debug.Log("Player Attacked!");
                 anim.SetTrigger("attack");

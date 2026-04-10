@@ -15256,8 +15256,8 @@ MonoBehaviour:
   dashSpeed: 20
   dashDuration: 0.2
   dashCooldown: 1
-  timeBtwAttack: 0.3
-  startTimeBtwAttack: 0
+  timeBtwAttack: 0
+  startTimeBtwAttack: 0.65
   attackPos: {fileID: 1837945671}
   attackRange: 0.3
   whatIsEnemies:
