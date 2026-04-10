@@ -74,6 +74,7 @@ public class player_Script : MonoBehaviour
         flip();
         WallJump();
         Dash();
+        HandleDashAttack();
     }
     
     // Use FixedUpdate for physics
@@ -201,6 +202,26 @@ public class player_Script : MonoBehaviour
         canDash = true;
     }
 
+    private void HandleDashAttack()
+    {
+        if (Input.GetMouseButtonDown(0) && isDashing)
+        {
+            anim.SetBool("isDashingAttacking", true);
+            anim.SetBool("isJumping", false);
+            anim.SetTrigger("dashAttack");
+            Collider2D[] enemysToDamage = Physics2D.OverlapCircleAll(attackPos.position, attackRange, whatIsEnemies);
+            for (int i = 0; i < enemysToDamage.Length; i++)
+            {
+                enemysToDamage[i].GetComponent<enemy_1_script>().TakeDamage(damage);
+            }
+        }
+        else
+        {
+            anim.SetBool("isDashingAttacking", false);
+        }
+        
+    }
+
     private void WallSlide()
     {
         if (isOnWall())
@@ -268,8 +289,8 @@ public class player_Script : MonoBehaviour
                 {
                     enemysToDamage[i].GetComponent<enemy_1_script>().TakeDamage(damage);
                 }
+                timeBtwAttack = startTimeBtwAttack;
             }
-            timeBtwAttack = startTimeBtwAttack;
         }
         else
         {
