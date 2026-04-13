@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using JetBrains.Annotations;
 
 
 public class enemy_1_script : MonoBehaviour
@@ -23,6 +24,8 @@ public class enemy_1_script : MonoBehaviour
     private bool isWaiting = false;
     private float dotThreshold;
     public int health = 5;
+
+    public GameObject waveAttack;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -49,6 +52,7 @@ public class enemy_1_script : MonoBehaviour
             MoveTowardsPoint();
             CheckReachedPoint();
         }
+        HandleAttacks();
     }
 
 
@@ -174,9 +178,47 @@ public class enemy_1_script : MonoBehaviour
         );
     }
 
+    //Attack funktion
+        //Ground slam attack
+        //Starta animation
+        //Starta coroutine (Slam())
+    private void HandleAttacks()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            anim.SetTrigger("Attack A");
+            StartCoroutine(WaveAttack());
+        }
+        
+            
+    }
+
+    
+    //IENumerator Slam()
+        //Vänta 0.5 sec
+        //Loopa så många ground objekt som ska spawna
+            //Instansiera objekt x + 30 pixlar bortom gubben
+
+    private IEnumerator WaveAttack()
+    {
+        float attackDistance = 1.1f;
+
+        yield return new WaitForSeconds(0.5f);
+        //Spawna 3 ground slam objekt
+        for (int i = 0; i < 3; i++)
+        {
+            //GameObject waveAttack = Resources.Load<GameObject>("Attack A-2.prefab");
+            GameObject attackWaveRef = Instantiate(waveAttack, new Vector3(transform.position.x + attackDistance, transform.position.y, transform.position.z), Quaternion.identity);
+            yield return new WaitForSeconds(0.5f);
+            attackDistance += 1.1f;
+            Destroy(attackWaveRef, 0.1f);
+        }
+    }
+
     public void TakeDamage(int damage)
     {
         health -= damage;
+        anim.SetTrigger("Hit");
         Debug.Log("Enemy took " + damage + " damage!");
         if (health <= 0)
         {

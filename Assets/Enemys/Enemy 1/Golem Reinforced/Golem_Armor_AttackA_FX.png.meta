@@ -145,12 +145,12 @@ TextureImporter:
       name: Golem_Armor_AttackA_FX_0
       rect:
         serializedVersion: 2
-        x: 18
-        y: 143
-        width: 95
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 19
+        y: 144
+        width: 27
+        height: 5
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -167,12 +167,12 @@ TextureImporter:
       name: Golem_Armor_AttackA_FX_1
       rect:
         serializedVersion: 2
-        x: 142
-        y: 143
-        width: 11
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 137
+        y: 80
+        width: 45
+        height: 16
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -189,12 +189,12 @@ TextureImporter:
       name: Golem_Armor_AttackA_FX_2
       rect:
         serializedVersion: 2
-        x: 155
-        y: 143
-        width: 10
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 17
+        y: 16
+        width: 30
+        height: 12
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -211,12 +211,12 @@ TextureImporter:
       name: Golem_Armor_AttackA_FX_3
       rect:
         serializedVersion: 2
-        x: 165
-        y: 143
-        width: 11
+        x: 81
+        y: 16
+        width: 30
         height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -233,12 +233,12 @@ TextureImporter:
       name: Golem_Armor_AttackA_FX_4
       rect:
         serializedVersion: 2
-        x: 12
-        y: 79
-        width: 39
-        height: 28
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 13
+        y: 80
+        width: 37
+        height: 27
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -255,12 +255,12 @@ TextureImporter:
       name: Golem_Armor_AttackA_FX_5
       rect:
         serializedVersion: 2
-        x: 74
-        y: 79
-        width: 44
-        height: 26
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 75
+        y: 80
+        width: 42
+        height: 25
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -277,12 +277,12 @@ TextureImporter:
       name: Golem_Armor_AttackA_FX_6
       rect:
         serializedVersion: 2
-        x: 136
-        y: 79
-        width: 20
-        height: 17
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        x: 146
+        y: 16
+        width: 29
+        height: 5
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -296,177 +296,45 @@ TextureImporter:
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Golem_Armor_AttackA_FX_7
-      rect:
-        serializedVersion: 2
-        x: 155
-        y: 79
-        width: 13
-        height: 13
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: ff99e93a9f35d4b00800000000000000
-      internalID: 814399439280970239
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Golem_Armor_AttackA_FX_8
-      rect:
-        serializedVersion: 2
-        x: 167
-        y: 79
-        width: 16
-        height: 16
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e5c5362a4d22a8f10800000000000000
-      internalID: 2272667258614668382
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Golem_Armor_AttackA_FX_9
-      rect:
-        serializedVersion: 2
-        x: 16
-        y: 15
-        width: 8
-        height: 13
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: e0e0568704f4eab90800000000000000
-      internalID: -7228753213566677490
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Golem_Armor_AttackA_FX_10
-      rect:
-        serializedVersion: 2
-        x: 28
-        y: 15
-        width: 9
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: b12025c2ff159d460800000000000000
-      internalID: 7266929630141088283
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Golem_Armor_AttackA_FX_11
-      rect:
-        serializedVersion: 2
-        x: 39
-        y: 15
-        width: 9
-        height: 12
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 738881175cff6f490800000000000000
-      internalID: -7712696088354322377
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Golem_Armor_AttackA_FX_12
+      name: Golem_Armor_AttackA_FX_15
       rect:
         serializedVersion: 2
         x: 80
-        y: 15
-        width: 8
-        height: 9
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        y: 144
+        width: 32
+        height: 5
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: 251753a5437ac7950800000000000000
-      internalID: 6448212609781297490
+      spriteID: e5595b2435b02954191201c40edb4005
+      internalID: -687095200
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: Golem_Armor_AttackA_FX_13
+      name: Golem_Armor_AttackA_FX_16
       rect:
         serializedVersion: 2
-        x: 93
-        y: 15
-        width: 19
+        x: 143
+        y: 144
+        width: 32
         height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
+      alignment: 7
+      pivot: {x: 0.5, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
-      spriteID: cb01b9daf9889d380800000000000000
-      internalID: -8945968965400981316
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: Golem_Armor_AttackA_FX_14
-      rect:
-        serializedVersion: 2
-        x: 145
-        y: 15
-        width: 31
-        height: 6
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 1077566c3bacd39a0800000000000000
-      internalID: -6251617834243885311
+      spriteID: e72255e9cc1470249a31ed97b02b5283
+      internalID: 1511301892
       vertices: []
       indices: 
       edges: []
@@ -475,7 +343,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: e741f25b2972f6440950f9c096792e51
     internalID: 0
     vertices: []
     indices: 
@@ -492,6 +360,8 @@ TextureImporter:
       Golem_Armor_AttackA_FX_12: 6448212609781297490
       Golem_Armor_AttackA_FX_13: -8945968965400981316
       Golem_Armor_AttackA_FX_14: -6251617834243885311
+      Golem_Armor_AttackA_FX_15: -687095200
+      Golem_Armor_AttackA_FX_16: 1511301892
       Golem_Armor_AttackA_FX_2: -9010033618190658651
       Golem_Armor_AttackA_FX_3: -8292837469000192963
       Golem_Armor_AttackA_FX_4: -9074911874492656803

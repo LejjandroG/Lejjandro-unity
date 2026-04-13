@@ -278,7 +278,7 @@ public class player_Script : MonoBehaviour
 
     private void HandleAttack()
     {
-        if (timeBtwAttack <= 0)
+        if (timeBtwAttack <= 0 && !isDashing)
         {
             if (Input.GetMouseButtonDown(0) && isGrounded)
             {
