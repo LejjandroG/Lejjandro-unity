@@ -20492,10 +20492,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c186b8907f6aec545872293354d24f39, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  health: 5
   speed: 2
   waitTime: 2
   pointA: {fileID: 1746923431}
   pointB: {fileID: 1307266534}
+  waveAttack: {fileID: 1247120325592415449, guid: a16c61928eea6d04f93b98d67a3cb0bc, type: 3}
   rb: {fileID: 1303021005}
   anim: {fileID: 1303021011}
   currentPoint: {fileID: 0}
@@ -20508,8 +20510,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 512
   playerRef: {fileID: 817038797}
-  health: 5
-  waveAttack: {fileID: 1247120325592415449, guid: a16c61928eea6d04f93b98d67a3cb0bc, type: 3}
 --- !u!95 &1303021011
 Animator:
   serializedVersion: 7

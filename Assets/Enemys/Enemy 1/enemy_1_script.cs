@@ -5,12 +5,16 @@ using JetBrains.Annotations;
 
 public class enemy_1_script : MonoBehaviour
 {
+    [Header("Enemy Stats")]
+    public int health = 5;
     [Header("Enemy movement")]
     public float speed = 5f;
     public float waitTime = 2f;
     [Header("Enemy Patrol Points")]
     public GameObject pointA;
     public GameObject pointB;
+    [Header("Enemy Attack")]
+    public GameObject waveAttack;
     [Header("Enemy Components")]
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Animator anim;
@@ -23,9 +27,6 @@ public class enemy_1_script : MonoBehaviour
     public bool canSeePlayer { get; private set; }
     private bool isWaiting = false;
     private float dotThreshold;
-    public int health = 5;
-
-    public GameObject waveAttack;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -208,7 +209,7 @@ public class enemy_1_script : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             //GameObject waveAttack = Resources.Load<GameObject>("Attack A-2.prefab");
-            GameObject attackWaveRef = Instantiate(waveAttack, new Vector3(transform.position.x + attackDistance, transform.position.y, transform.position.z), Quaternion.identity);
+            GameObject attackWaveRef = Instantiate(waveAttack, new Vector3(transform.position.x + attackDistance, this.transform.position.y - 0.4f, transform.position.z), Quaternion.identity);
             yield return new WaitForSeconds(0.5f);
             attackDistance += 1.1f;
             Destroy(attackWaveRef, 0.1f);

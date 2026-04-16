@@ -90,7 +90,7 @@ public class player_Script : MonoBehaviour
 
     }
 
-        private void OnCollisionEnter2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
         //Spikes collision
         if (collision.gameObject.tag == "Spikes")
@@ -104,6 +104,18 @@ public class player_Script : MonoBehaviour
             {
                 Die();
             }
+        }
+    }
+
+    public void TakeDamage (int damage)
+    {
+        health -= damage;
+        StartCoroutine(HurtAnimation());
+        rb.linearVelocity = new Vector3(rb.linearVelocityX, jumpPower);
+
+        if (health <= 0)
+        {
+            Die();
         }
     }
 
