@@ -10,11 +10,14 @@ public class enemy_1_script : MonoBehaviour
     [Header("Enemy movement")]
     public float speed = 5f;
     public float waitTime = 2f;
+
     [Header("Enemy Patrol Points")]
     public GameObject pointA;
     public GameObject pointB;
     [Header("Enemy Attack")]
     public GameObject waveAttack;
+    public GameObject bulletAttack;
+    private bool isAttacking = false;
     [Header("Enemy Components")]
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Animator anim;
@@ -47,12 +50,7 @@ public class enemy_1_script : MonoBehaviour
     {
         Vector2 point = currentPoint.position - transform.position;
 
-
-        if (!isWaiting)
-        {
-            MoveTowardsPoint();
-            CheckReachedPoint();
-        }
+        HandleMovement();
         HandleAttacks();
     }
 
@@ -107,7 +105,20 @@ public class enemy_1_script : MonoBehaviour
         }
     }
 
-
+    private void HandleMovement()
+    {
+        if (!isWaiting)
+        {
+            MoveTowardsPoint();
+            CheckReachedPoint();
+        }
+        if (isWaiting || isAttacking)
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
+    }
+    
     private void MoveTowardsPoint()
     {
         if(currentPoint == pointB.transform)
@@ -188,10 +199,14 @@ public class enemy_1_script : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.P))
         {
             anim.SetTrigger("Attack A");
-            StartCoroutine(WaveAttack());
+            StartCoroutine(Attack_A());
         }
-        
-            
+
+        if (Input.GetKeyDown(KeyCode.O))
+        {
+            anim.SetTrigger("Attack C");
+            StartCoroutine(Attack_C());
+        }
     }
 
     
@@ -200,20 +215,47 @@ public class enemy_1_script : MonoBehaviour
         //Loopa så många ground objekt som ska spawna
             //Instansiera objekt x + 30 pixlar bortom gubben
 
-    private IEnumerator WaveAttack()
+    private IEnumerator Attack_A()
     {
+        isAttacking = true;
+        anim.SetBool("isRunning", false);
+        
         float attackDistance = 1.1f;
-
         yield return new WaitForSeconds(0.5f);
         //Spawna 3 ground slam objekt
         for (int i = 0; i < 3; i++)
         {
+            Vector2 facingDirection = transform.localScale.x > 0 ? Vector2.right : Vector2.left;
+
+            Vector2 spawnPosition = (Vector2)transform.position + facingDirection * attackDistance + new Vector2(0, -0.4f);
             //GameObject waveAttack = Resources.Load<GameObject>("Attack A-2.prefab");
-            GameObject attackWaveRef = Instantiate(waveAttack, new Vector3(transform.position.x + attackDistance, this.transform.position.y - 0.4f, transform.position.z), Quaternion.identity);
+            GameObject attackWaveRef = Instantiate(waveAttack, spawnPosition, Quaternion.identity);
             yield return new WaitForSeconds(0.5f);
             attackDistance += 1.1f;
             Destroy(attackWaveRef, 0.1f);
         }
+        yield return new WaitForSeconds(0.5f);
+        isAttacking = false;
+        anim.SetBool("isRunning", true);
+    }
+
+    private IEnumerator Attack_C()
+    {
+        isAttacking = true;
+        anim.SetBool("isRunning", false);
+        yield return new WaitForSeconds(0.3f);
+        
+        Vector2 facingDirection = transform.localScale.x > 0 ? Vector2.right : Vector2.left;
+        Vector2 spawnPosition = (Vector2)transform.position + facingDirection + new Vector2(0, 0);
+        
+        GameObject bulletAttackRef = Instantiate(bulletAttack, spawnPosition, Quaternion.identity);
+        
+        bulletAttackRef.GetComponent<bullet_Script>().SetDirection(facingDirection);
+        Destroy(bulletAttackRef, 5f);
+        
+        yield return new WaitForSeconds(0.5f);
+        isAttacking = false;
+        anim.SetBool("isRunning", true);
     }
 
     public void TakeDamage(int damage)
