@@ -9,6 +9,10 @@ public class bullet_Script : MonoBehaviour
 
     private Vector2 moveDirection = Vector2.right;
 
+    private bool isfacingRight;
+
+    private float horizontal;
+
     [SerializeField] private LayerMask ObstructionLayer;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -19,7 +23,7 @@ public class bullet_Script : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(Vector2.right * bulletSpeed * Time.deltaTime);
+        transform.Translate(moveDirection * bulletSpeed * Time.deltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -40,5 +44,17 @@ public class bullet_Script : MonoBehaviour
     public void SetDirection(Vector2 dir)
     {
         moveDirection = dir.normalized;
+
+        if (moveDirection.x < 0)
+        {
+            GetComponent<SpriteRenderer>().flipX = true;
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().flipX = false;
+        }
+        Debug.Log("moveDirection" + moveDirection);
     }
+
+
 }
