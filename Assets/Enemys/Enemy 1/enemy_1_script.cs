@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using JetBrains.Annotations;
+using Unity.VisualScripting;
 
 
 public class enemy_1_script : MonoBehaviour
@@ -30,6 +31,7 @@ public class enemy_1_script : MonoBehaviour
     public bool canSeePlayer { get; private set; }
     private bool isWaiting = false;
     private float dotThreshold;
+    private SpriteRenderer sprite;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -49,6 +51,7 @@ public class enemy_1_script : MonoBehaviour
     void Update()
     {
         Vector2 point = currentPoint.position - transform.position;
+        sprite = GetComponent<SpriteRenderer>();
 
         HandleMovement();
         HandleAttacks();
@@ -64,7 +67,6 @@ public class enemy_1_script : MonoBehaviour
             FOV();
         }
     }
-
 
     private void FOV()
     {
@@ -253,7 +255,7 @@ public class enemy_1_script : MonoBehaviour
         bulletAttackRef.GetComponent<bullet_Script>().SetDirection(facingDirection);
         Destroy(bulletAttackRef, 5f);
         
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.7f);
         isAttacking = false;
         anim.SetBool("isRunning", true);
     }
@@ -262,12 +264,18 @@ public class enemy_1_script : MonoBehaviour
     {
         health -= damage;
         anim.SetTrigger("Hit");
+        sprite.color = new Color(250f, 89f, 89f, 255f);
         Debug.Log("Enemy took " + damage + " damage!");
+        Invoke("ResetColor", 0.4f);
         if (health <= 0)
         {
             Die();
         }
+    }
 
+    private void ResetColor()
+    {
+        sprite.color = Color.white;
     }
 
 
