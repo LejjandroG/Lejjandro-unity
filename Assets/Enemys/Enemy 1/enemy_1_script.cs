@@ -109,16 +109,28 @@ public class enemy_1_script : MonoBehaviour
 
     private void HandleMovement()
     {
-        if (!isWaiting)
-        {
-            MoveTowardsPoint();
-            CheckReachedPoint();
-        }
+
         if (isWaiting || isAttacking)
         {
             rb.linearVelocity = Vector2.zero;
             return;
         }
+
+        /*if (!isWaiting)
+        {
+            MoveTowardsPoint();
+            CheckReachedPoint();
+        }*/
+        
+        if (canSeePlayer)
+        {
+            Vector2 directionToPlayer = (playerRef.transform.position - transform.position).normalized;
+            rb.linearVelocity = directionToPlayer * speed * 0.5f;
+            return;
+        }
+        MoveTowardsPoint();
+        CheckReachedPoint();
+    
     }
     
     private void MoveTowardsPoint()

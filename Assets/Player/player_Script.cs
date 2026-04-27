@@ -221,11 +221,11 @@ public class player_Script : MonoBehaviour
             anim.SetBool("isDashingAttacking", true);
             anim.SetBool("isJumping", false);
             anim.SetTrigger("dashAttack");
-            Collider2D[] enemysToDamage = Physics2D.OverlapCircleAll(attackPos.position, attackRange, whatIsEnemies);
+            /*Collider2D[] enemysToDamage = Physics2D.OverlapCircleAll(attackPos.position, attackRange, whatIsEnemies);
             for (int i = 0; i < enemysToDamage.Length; i++)
             {
                 enemysToDamage[i].GetComponent<enemy_1_script>().TakeDamage(damage);
-            }
+            }*/
         }
         else
         {
