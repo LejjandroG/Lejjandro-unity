@@ -40,6 +40,7 @@ public class enemy_1_script : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         anim = GetComponent<Animator>();
         currentPoint = pointB.transform;
+        sprite = GetComponent<SpriteRenderer>();
         anim.SetBool("isRunning", true);
         playerRef = GameObject.FindGameObjectWithTag("Player");
         StartCoroutine(FOVCheck());
@@ -51,7 +52,6 @@ public class enemy_1_script : MonoBehaviour
     void Update()
     {
         Vector2 point = currentPoint.position - transform.position;
-        sprite = GetComponent<SpriteRenderer>();
 
         HandleMovement();
         HandleAttacks();
@@ -94,11 +94,14 @@ public class enemy_1_script : MonoBehaviour
             if (dot > dotThreshold)
             {
                 RaycastHit2D hit = Physics2D.Raycast(transform.position, directionToTarget, distanceToTarget, obstructionLayer);
-                canSeePlayer = !hit;
-            }
-            else
-            {
-                canSeePlayer = false;
+                if (!hit)
+                {
+                    canSeePlayer = true;
+                }
+                else
+                {
+                    canSeePlayer = false;
+                }
             }
         }
         else
@@ -109,25 +112,42 @@ public class enemy_1_script : MonoBehaviour
 
     private void HandleMovement()
     {
+        // If the enemy can see the player, move towards them
+        //Om fienden kan se spelaren, rör sig mot dem
+        if (canSeePlayer == true)
+        {
+            isWaiting = false;
+            
+            // Move towards the player
+            //Rör sig mot spelaren
+            Vector2 directionToPlayer = (playerRef.transform.position - transform.position).normalized;
+            rb.linearVelocity = directionToPlayer * speed * 1.5f;
 
+            anim.SetBool("isRunning", true);
+            
+            // Flip to face the player
+            //Vänd för att möta spelaren
+            if (playerRef.transform.position.x > transform.position.x && transform.localScale.x < 0)
+            {
+                Flip();
+            }
+            else if (playerRef.transform.position.x < transform.position.x && transform.localScale.x > 0)
+            {
+                Flip();
+            }
+            return;
+        }
+        
+        // If waiting at a patrol point or attacking, don't move
+        //Om väntar vid en patrullpunkt eller attackerar, rör sig inte
         if (isWaiting || isAttacking)
         {
             rb.linearVelocity = Vector2.zero;
             return;
         }
-
-        /*if (!isWaiting)
-        {
-            MoveTowardsPoint();
-            CheckReachedPoint();
-        }*/
         
-        if (canSeePlayer)
-        {
-            Vector2 directionToPlayer = (playerRef.transform.position - transform.position).normalized;
-            rb.linearVelocity = directionToPlayer * speed * 0.5f;
-            return;
-        }
+        // Patrol between points
+        //Patrullera mellan punkterna
         MoveTowardsPoint();
         CheckReachedPoint();
     
@@ -135,13 +155,30 @@ public class enemy_1_script : MonoBehaviour
     
     private void MoveTowardsPoint()
     {
-        if(currentPoint == pointB.transform)
+
+        float directionX;
+
+        if (currentPoint == pointB.transform)
         {
-            rb.linearVelocity = new Vector2(speed, 0 );
+            directionX = pointB.transform.position.x > transform.position.x ? 1f : -1f;
+            //directionX = 1f;
+            rb.linearVelocity = new Vector2(speed*directionX, 0f);
         }
         else
         {
-            rb.linearVelocity = new Vector2(-speed,0 );
+            directionX = pointA.transform.position.x > transform.position.x ? 1f : -1f;
+            //directionX = -1f;
+            rb.linearVelocity = new Vector2(speed*directionX, 0f);
+        }
+
+        // Flip to match patrol direction
+        if (directionX > 0f && transform.localScale.x < 0f)
+        {
+            Flip();
+        }
+        else if (directionX < 0f && transform.localScale.x > 0f)
+        {
+            Flip();
         }
     }
 
@@ -165,9 +202,6 @@ public class enemy_1_script : MonoBehaviour
 
 
         yield return new WaitForSeconds(waitTime);
-
-
-        Flip();
 
 
         if (currentPoint == pointB.transform)
@@ -204,10 +238,6 @@ public class enemy_1_script : MonoBehaviour
         );
     }
 
-    //Attack funktion
-        //Ground slam attack
-        //Starta animation
-        //Starta coroutine (Slam())
     private void HandleAttacks()
     {
         if (Input.GetKeyDown(KeyCode.P))
@@ -225,9 +255,9 @@ public class enemy_1_script : MonoBehaviour
 
     
     //IENumerator Slam()
-        //Vänta 0.5 sec
-        //Loopa så många ground objekt som ska spawna
-            //Instansiera objekt x + 30 pixlar bortom gubben
+    //Vänta 0.5 sec
+    //Loopa så många ground objekt som ska spawna
+    //Instansiera objekt x + 30 pixlar bortom gubben
 
     private IEnumerator Attack_A()
     {
