@@ -20678,7 +20678,7 @@ Transform:
   m_GameObject: {fileID: 1303021004}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 66.51, y: 18.67, z: -0.9132563}
+  m_LocalPosition: {x: 63.54, y: 18.57976, z: -0.9132563}
   m_LocalScale: {x: 3, y: 3, z: 3.3035}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -20703,10 +20703,11 @@ MonoBehaviour:
   pointB: {fileID: 1307266534}
   waveAttack: {fileID: 1247120325592415449, guid: a16c61928eea6d04f93b98d67a3cb0bc, type: 3}
   bulletAttack: {fileID: 3173165742432163404, guid: 344809e01d8eab44bb54bc8686df1475, type: 3}
+  attackCooldown: 4
   rb: {fileID: 1303021005}
   anim: {fileID: 1303021011}
   currentPoint: {fileID: 0}
-  radius: 5
+  radius: 8
   angle: 45
   targetLayer:
     serializedVersion: 2
@@ -20762,7 +20763,7 @@ Transform:
   m_GameObject: {fileID: 1307266534}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 66.5, y: 18.5, z: -0.0011648247}
+  m_LocalPosition: {x: 71.87, y: 18.5, z: -0.0011648247}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

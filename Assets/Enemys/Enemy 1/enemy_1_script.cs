@@ -19,6 +19,8 @@ public class enemy_1_script : MonoBehaviour
     public GameObject waveAttack;
     public GameObject bulletAttack;
     private bool isAttacking = false;
+    private bool canAttack = true;
+    public float attackCooldown = 2f;
     [Header("Enemy Components")]
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Animator anim;
@@ -112,6 +114,14 @@ public class enemy_1_script : MonoBehaviour
 
     private void HandleMovement()
     {
+        // If waiting at a patrol point or attacking, don't move
+        //Om väntar vid en patrullpunkt eller attackerar, rör sig inte
+        if (isWaiting || isAttacking)
+        {
+            rb.linearVelocity = Vector2.zero;
+            return;
+        }
+        
         // If the enemy can see the player, move towards them
         //Om fienden kan se spelaren, rör sig mot dem
         if (canSeePlayer == true)
@@ -138,13 +148,7 @@ public class enemy_1_script : MonoBehaviour
             return;
         }
         
-        // If waiting at a patrol point or attacking, don't move
-        //Om väntar vid en patrullpunkt eller attackerar, rör sig inte
-        if (isWaiting || isAttacking)
-        {
-            rb.linearVelocity = Vector2.zero;
-            return;
-        }
+        
         
         // Patrol between points
         //Patrullera mellan punkterna
@@ -240,7 +244,28 @@ public class enemy_1_script : MonoBehaviour
 
     private void HandleAttacks()
     {
-        if (Input.GetKeyDown(KeyCode.P))
+        if (canSeePlayer && !isAttacking && canAttack)
+        {
+            float distanceToPlayer = Vector2.Distance(transform.position, playerRef.transform.position);
+
+            if (distanceToPlayer < 4f)
+            {
+                anim.SetTrigger("Attack A");
+                StartCoroutine(Attack_A());
+                canAttack = false;
+            }
+            else if (distanceToPlayer < 8f)
+            {
+                anim.SetTrigger("Attack C");
+                StartCoroutine(Attack_C());
+                canAttack = false;
+            }
+
+            StartCoroutine(AttackCooldown());
+            
+        }
+
+        /*if (Input.GetKeyDown(KeyCode.P))
         {
             anim.SetTrigger("Attack A");
             StartCoroutine(Attack_A());
@@ -250,7 +275,13 @@ public class enemy_1_script : MonoBehaviour
         {
             anim.SetTrigger("Attack C");
             StartCoroutine(Attack_C());
-        }
+        }*/
+    }
+
+    IEnumerator AttackCooldown()
+    {
+        yield return new WaitForSeconds(attackCooldown);
+        canAttack = true;
     }
 
     
@@ -276,7 +307,7 @@ public class enemy_1_script : MonoBehaviour
             GameObject attackWaveRef = Instantiate(waveAttack, spawnPosition, Quaternion.identity);
             yield return new WaitForSeconds(0.5f);
             attackDistance += 1.1f;
-            Destroy(attackWaveRef, 0.1f);
+            //Destroy(attackWaveRef, 0.1f);
         }
         yield return new WaitForSeconds(0.5f);
         isAttacking = false;
